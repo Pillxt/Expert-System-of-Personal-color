@@ -1,0 +1,489 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package personalcolor;
+
+import java.awt.Label;
+import javax.swing.ImageIcon;
+import org.jpl7.*;
+import java.util.Map;
+import javax.swing.ButtonGroup;
+
+
+public class JFMain extends javax.swing.JFrame {
+
+    Query q = new Query("consult('PersonalColor.pl')");
+    ButtonGroup btg = new ButtonGroup();
+    int countQ = 1, countW = 0, countC = 0, countL = 0, countD = 0;
+    boolean nuetral = false;
+    String name = "client";
+    
+    public JFMain() {
+        initComponents();
+        init();
+    }
+    
+    public void init(){
+        countQ = 1; countW = 0; countC = 0;
+        countL = 0; countD = 0;
+        nuetral = false;
+        btg.add(chA);
+        btg.add(chB);
+        btg.add(chC);
+        lbq.setVisible(false);
+        lbPic1.setVisible(false);
+        chA.setVisible(false);
+        chC.setVisible(false);
+        chB.setVisible(false);
+        btNext.setVisible(false);
+    }
+    
+    public void queryAsk(String s){
+        q.hasSolution();
+        q = new Query(s);
+        
+        Map<String, Term>[] res = q.allSolutions();
+        
+        for(int i=0;i<res.length; i++){
+            System.out.println(res[i]);
+        }
+    }
+    
+    public void ques1(){
+        lbq.setVisible(true);
+        lbq.setText("เส้นเลือดใต้ข้อมือของคุณเป็นสีอะไร");
+        lbPic1.setIcon(new ImageIcon("assets\\undertone.png"));
+        lbPic1.setVisible(true);
+        chA.setVisible(true);
+        chA.setSelected(true);
+        chC.setVisible(true);
+        chB.setVisible(true);
+        btNext.setVisible(true);
+    }
+    
+    public void quesN(){
+        lbq.setText("สีผิวหลังจากออกแดดของคุณเป็นแบบไหน");
+        lbPic1.setIcon(new ImageIcon("assets\\sunburn.png"));
+        chA.setSelected(true);
+        chB.setVisible(false);
+    }
+    
+    public void ques2(){
+        lbq.setText("คุณใส่เครื่องประดับสีไหนแล้วดูผ่องมากกว่า");
+        lbPic1.setIcon(new ImageIcon("assets\\jewelry.png"));
+        chA.setSelected(true);
+        chB.setVisible(false);
+    }
+    
+    public void ques3(){
+        lbq.setText("คุณใส่เสื้อสีขาวโทนไหนแล้วดูผ่องมากกว่า");
+        lbPic1.setIcon(new ImageIcon("assets\\suitwhite.png"));
+        chA.setSelected(true);
+    }
+    
+    public void ques4(){
+        lbq.setText("ลองเทียบสีดูว่าสีไหนขับผิวคุณมากกว่า");
+        chA.setSelected(true);
+        if(countW > countC)
+            lbPic1.setIcon(new ImageIcon("assets\\warm1.png"));
+        else
+            lbPic1.setIcon(new ImageIcon("assets\\cool1.png"));
+    }
+    
+    public void ques5(){
+        chA.setSelected(true);
+        if(countW > countC)
+            lbPic1.setIcon(new ImageIcon("assets\\warm2.png"));
+        else
+            lbPic1.setIcon(new ImageIcon("assets\\cool2.png"));
+    }
+    
+    public void ques6(){
+        chA.setSelected(true);
+        if(countW > countC)
+            lbPic1.setIcon(new ImageIcon("assets\\warm3.png"));
+        else
+            lbPic1.setIcon(new ImageIcon("assets\\cool3.png"));
+    }
+    
+    public void ques7(){
+        chA.setSelected(true);
+        if(countW > countC)
+            lbPic1.setIcon(new ImageIcon("assets\\warm4.png"));
+        else
+            lbPic1.setIcon(new ImageIcon("assets\\cool4.png"));
+    }
+    
+    public void ques8(){
+        chA.setSelected(true);
+        if(countW > countC)
+            lbPic1.setIcon(new ImageIcon("assets\\warm5.png"));
+        else
+            lbPic1.setIcon(new ImageIcon("assets\\cool5.png"));
+    }
+    
+    public void result(){
+        String prologCommand;
+        String s = "", temp;
+        if(countW > countC)
+            temp = "warm";
+        else
+            temp = "cool";
+        prologCommand = String.format("assertz(tone('%s', '%s'))", name, temp);
+        queryAsk(prologCommand);
+        
+        if(countL > countD)
+            temp = "light";
+        else
+            temp = "deep";
+        prologCommand = String.format("assertz(tone('%s', '%s'))", name, temp);
+        queryAsk(prologCommand);
+        
+        s = "season("+name+", X).";
+        queryAsk(s);
+        
+        if(countW > countC && countL > countD)
+            new JFResult("spring").setVisible(true);
+        else if(countW > countC && countL < countD)
+            new JFResult("autumn").setVisible(true);
+        else if(countW < countC && countL > countD)
+            new JFResult("summer").setVisible(true);
+        else if(countW < countC && countL < countD)
+            new JFResult("winter").setVisible(true);
+        
+        this.setVisible(false);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        btStart = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        lbq = new javax.swing.JLabel();
+        lbPic1 = new javax.swing.JLabel();
+        chA = new javax.swing.JRadioButton();
+        chC = new javax.swing.JRadioButton();
+        btNext = new javax.swing.JButton();
+        chB = new javax.swing.JRadioButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("Personal Color ES"); // NOI18N
+        setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
+
+        btStart.setBackground(new java.awt.Color(255, 255, 255));
+        btStart.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btStart.setLabel("START");
+        btStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btStartActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Pfennig", 3, 30)); // NOI18N
+        jLabel1.setText("Personal Color");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btStart, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(btStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(8, 8, 8))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1070, 650));
+
+        lbq.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
+        lbq.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbq.setText("เส้นเลือดใต้ข้อมือของคุณเป็นสีอะไร");
+
+        lbPic1.setBackground(new java.awt.Color(204, 204, 204));
+        lbPic1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        chA.setBackground(new java.awt.Color(255, 255, 255));
+        chA.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        chA.setText("A");
+
+        chC.setBackground(new java.awt.Color(255, 255, 255));
+        chC.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        chC.setText("C");
+
+        btNext.setBackground(new java.awt.Color(255, 255, 255));
+        btNext.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btNext.setForeground(new java.awt.Color(0, 51, 153));
+        btNext.setText("NEXT");
+        btNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNextActionPerformed(evt);
+            }
+        });
+
+        chB.setBackground(new java.awt.Color(255, 255, 255));
+        chB.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        chB.setText("B");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(304, 304, 304)
+                .addComponent(chA)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 196, Short.MAX_VALUE)
+                .addComponent(chB)
+                .addGap(175, 175, 175)
+                .addComponent(chC)
+                .addGap(278, 278, 278))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btNext, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(lbPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(187, 187, 187))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(lbq, javax.swing.GroupLayout.PREFERRED_SIZE, 846, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(lbq, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chA)
+                    .addComponent(chC)
+                    .addComponent(chB))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(btNext, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStartActionPerformed
+        ques1();
+    }//GEN-LAST:event_btStartActionPerformed
+
+    private void btNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNextActionPerformed
+        String s = "";
+        if(countQ == 1 && !nuetral){
+            if(chA.isSelected()){
+                s = "undertone(green, X)";
+                ques2();
+                countW++;
+            }
+            else if(chB.isSelected()){
+                s = "undertone(mix, X)";
+                nuetral = true;
+                countQ--;
+                quesN();
+            }
+            else{
+                s = "undertone(purple, X)";
+                ques2();
+                countC++;
+            }
+        }if(countQ == 1 && nuetral){
+            if(chA.isSelected()){
+                s = "sunburn(blue, X)";
+                countC++;
+            }
+            else{
+                s = "sunburn(yellow, X)";
+                countW++;
+            }
+            ques2();
+        }if(countQ == 2){
+            if(chA.isSelected()){
+                s = "jewelry(silverorrosegold, X)";
+                countC++;
+            }
+            else{
+                s = "jewelry(goldorcopper, X)";
+                countW++;
+            }
+            ques3();
+        }if(countQ == 3){
+            if(chA.isSelected()){
+                s = "suitwhite(white, X)";
+                countC++;
+            }
+            else{
+                s = "suitwhite(offwhite, X)";
+                countW++;
+            }
+            ques4();
+        }if(countQ == 4){
+            if(chA.isSelected() && countW > countC)
+                s = "colorTone(springPurple, X)";
+            else if(chC.isSelected() && countW > countC)
+                s = "colorTone(autumnPurple, X)";
+            else if(chA.isSelected() && countW < countC)
+                s = "colorTone(summerPurple, X)";
+            else if(chC.isSelected() && countW < countC)
+                s = "colorTone(winterPurple, X)";
+            if(chA.isSelected())
+                countL++;
+            else
+                countD++;
+            ques5();
+        }if(countQ == 5){
+            if(chA.isSelected() && countW > countC)
+                s = "colorTone(springBlue, X)";
+            else if(chC.isSelected() && countW > countC)
+                s = "colorTone(autumnBlue, X)";
+            else if(chA.isSelected() && countW < countC)
+                s = "colorTone(summerBlue, X)";
+            else if(chC.isSelected() && countW < countC)
+                s = "colorTone(winterBlue, X)";
+            if(chA.isSelected())
+                countL++;
+            else
+                countD++;
+            ques6();
+        }if(countQ == 6){
+            if(chA.isSelected() && countW > countC)
+                s = "colorTone(springYellow, X)";
+            else if(chC.isSelected() && countW > countC)
+                s = "colorTone(autumnYellow, X)";
+            else if(chA.isSelected() && countW < countC)
+                s = "colorTone(summerYellow, X)";
+            else if(chC.isSelected() && countW < countC)
+                s = "colorTone(winterYellow, X)";
+            if(chA.isSelected())
+                countL++;
+            else
+                countD++;
+            ques7();
+        }if(countQ == 7){
+            if(chA.isSelected() && countW > countC)
+                s = "colorTone(springPink, X)";
+            else if(chC.isSelected() && countW > countC)
+                s = "colorTone(autumnPink, X)";
+            else if(chA.isSelected() && countW < countC)
+                s = "colorTone(summerPink, X)";
+            else if(chC.isSelected() && countW < countC)
+                s = "colorTone(winterPink, X)";
+            if(chA.isSelected())
+                countL++;
+            else
+                countD++;
+            ques8();
+        }if(countQ == 8){
+            if(chA.isSelected() && countW > countC)
+                s = "colorTone(springGreen, X)";
+            else if(chC.isSelected() && countW > countC)
+                s = "colorTone(autumnGreen, X)";
+            else if(chA.isSelected() && countW < countC)
+                s = "colorTone(summerGreen, X)";
+            else if(chC.isSelected() && countW < countC)
+                s = "colorTone(winterGreen, X)";
+            if(chA.isSelected())
+                countL++;
+            else
+                countD++;
+        }
+        countQ++;
+        queryAsk(s);
+        if(countQ > 8)
+            result();
+    }//GEN-LAST:event_btNextActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(JFMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(JFMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(JFMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JFMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new JFMain().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btNext;
+    private javax.swing.JButton btStart;
+    private javax.swing.JRadioButton chA;
+    private javax.swing.JRadioButton chB;
+    private javax.swing.JRadioButton chC;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lbPic1;
+    private javax.swing.JLabel lbq;
+    // End of variables declaration//GEN-END:variables
+}
